@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.uni_weimar.mis.ajdar.BoardActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtName"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
+            android:textColor="#25743d"
+            android:textStyle="bold"
+            android:textSize="25dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/txtHealth"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
+            android:textColor="#ff0000"
+            android:textSize="20dp" />
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/txtWeapon"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="20dp"
+            android:textSize="20dp" />
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/txtError"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+            android:textSize="020dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shoot"
+            android:id="@+id/btnShoot"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+</LinearLayout>
