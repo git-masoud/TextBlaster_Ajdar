@@ -1,5 +1,6 @@
 package de.uni_weimar.mis.ajdar;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
 
                     AsyncHttpClient client = new AsyncHttpClient();
@@ -147,20 +149,22 @@ public class MainActivity extends AppCompatActivity {
                                                     timer.cancel();
                                                     startGame();
                                                 }
+                                                //execute in every 50000 ms
                                             } catch (Exception e) {
-                                                // TODO Auto-generated catch block
+                                                showMessage(e.getLocalizedMessage());
                                             }
                                         }
                                     });
+
                                 }
                             };
-                            timer.schedule(doAsynchronousTask, 0, 5000); //execute in every 50000 ms
 
+                            timer.schedule(doAsynchronousTask, 0, 2000);
                             dialog.cancel();
                         }
                     });
                 } catch (Exception ex) {
-                    Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT);
+                    showMessage(ex.getLocalizedMessage());
                 }
             }
         });
@@ -168,9 +172,15 @@ public class MainActivity extends AppCompatActivity {
         btnCreateBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     etBoardName = ((EditText) findViewById(R.id.etBoardName));
+
                     String boardName = etBoardName.getText().toString();
+                    if( boardName.isEmpty()) {
+                        showMessage( "Enter board name!");
+                        return;
+                    }
                     AsyncHttpClient client = new AsyncHttpClient();
                     client.get(serverAddress + "MakeBoard?name=" + boardName + "&adminName=" + userName, new TextHttpResponseHandler() {
                         @Override
@@ -222,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 } catch (Exception ex) {
-                    Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT);
+                    showMessage(ex.getLocalizedMessage());
                 }
             }
         });
@@ -263,14 +273,15 @@ public class MainActivity extends AppCompatActivity {
                                                 timer.cancel();
                                                 startGame();
                                             }
+
                                         } catch (Exception e) {
-                                            // TODO Auto-generated catch block
+                                            showMessage(e.getLocalizedMessage());
                                         }
                                     }
                                 });
                             }
                         };
-                        timer.schedule(doAsynchronousTask, 0, 5000); //execute in every 50000 ms
+                        timer.schedule(doAsynchronousTask, 0, 2000); //execute in every 50000 ms
 
 
                     }
@@ -278,9 +289,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
                         // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                        System.out.println(t.getMessage());
+                       showMessage(t.getLocalizedMessage());
                         dialog.cancel();
-                        showConnectionError();
+
                     }
                 }
         );
@@ -296,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(MainActivity.this, "Fail:" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                showMessage(throwable.getMessage());
             }
 
             @Override
@@ -315,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    showMessage(ex.getLocalizedMessage());
                 }
                 dialog.cancel();
             }
@@ -329,8 +340,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
 
-                    Toast.makeText(MainActivity.this, "Fail:" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-
+                    showMessage("Fail:" + throwable.getLocalizedMessage());
                 }
 
                 @Override
@@ -342,20 +352,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception ex) {
-            Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT);
+            showMessage(ex.getLocalizedMessage());
         }
     }
 
     protected void startGame() {
-        try
-        {
-        Intent myIntent = new Intent(MainActivity.this, BoardActivity.class);
-        // myIntent.putExtra("key", value); //Optional parameters
-        MainActivity.this.startActivity(myIntent);
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT);
+        try {
+            Intent myIntent = new Intent(MainActivity.this, BoardActivity.class);
+            // myIntent.putExtra("key", value); //Optional parameters
+            MainActivity.this.startActivity(myIntent);
+        } catch (Exception ex) {
+            showMessage(ex.getLocalizedMessage());
         }
     }
 
@@ -372,12 +379,26 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 userName = input.getText().toString();
+                if( userName.isEmpty()) {
+                    showMessage("Enter name!");
+                    showInputBox();
+                    return;
+                }
             }
         });
         builder.show();
     }
 
+    protected void showMessage(final String message) {
+        ((Activity) MainActivity.this).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     protected void showConnectionError() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Connecting to server failed.!\r\nTry Again!");
@@ -390,43 +411,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void refreshList() {
-        try{
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(serverAddress + "GetBoards", new TextHttpResponseHandler() {
-                    @Override
-                    public void onStart() {
-                        dialog.show();
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String res) {
-                        try {
-                            Gson gson = new GsonBuilder().create();
-                            // Define Response class to correspond to the JSON response returned
-                            GameBoard[] gameBoards = gson.fromJson(res, GameBoard[].class);
-                            gameBoardAdapter.clear();
-                            for (GameBoard gameBoard : gameBoards)
-                                gameBoardAdapter.add(gameBoard);
-                        } catch (Exception ex) {
-                            System.out.println(ex.getMessage());
-
+        try {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(serverAddress + "GetBoards", new TextHttpResponseHandler() {
+                        @Override
+                        public void onStart() {
+                            dialog.show();
                         }
-                        dialog.cancel();
-                    }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
-                        // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                        System.out.println(t.getMessage());
-                        dialog.cancel();
-                        showConnectionError();
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, String res) {
+                            try {
+                                Gson gson = new GsonBuilder().create();
+                                // Define Response class to correspond to the JSON response returned
+                                GameBoard[] gameBoards = gson.fromJson(res, GameBoard[].class);
+                                gameBoardAdapter.clear();
+                                for (GameBoard gameBoard : gameBoards)
+                                    gameBoardAdapter.add(gameBoard);
+                            } catch (Exception ex) {
+                                showMessage(ex.getLocalizedMessage());
+
+                            }
+                            dialog.cancel();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
+                            // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                            showMessage(t.getLocalizedMessage());
+                            dialog.cancel();
+                            showConnectionError();
+                        }
                     }
-                }
-        );
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT);
+            );
+        } catch (Exception ex) {
+            showMessage(ex.getLocalizedMessage());
         }
     }
 }

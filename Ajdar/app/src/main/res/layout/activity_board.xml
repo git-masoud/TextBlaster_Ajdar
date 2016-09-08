@@ -3,18 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     tools:context="de.uni_weimar.mis.ajdar.BoardActivity">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#cc676767">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text="Name"
             android:id="@+id/txtName"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="20dp"
@@ -25,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text="Health"
             android:id="@+id/txtHealth"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="20dp"
@@ -35,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="Weapons"
         android:id="@+id/txtWeapon"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="20dp"
@@ -44,26 +45,69 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="Errors"
         android:id="@+id/txtError"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="10dp"
             android:textSize="020dp" />
 
     </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:background="#bd939393"
+        android:paddingBottom="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Enter this text below:"
+            android:id="@+id/tvlbl"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:textSize="020dp"
+            android:textColor="#fffce8"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="This is a sample text"
+            android:id="@+id/tvSentences"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:textSize="22dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#080808" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="fill_parent"
+        android:weightSum="1"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:background="#4f838383">
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtSentence"
+            android:layout_weight="0.75" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shoot"
+            android:text="Submit"
             android:id="@+id/btnShoot"
-            android:layout_gravity="center_horizontal"
-            android:textSize="25dp" />
+            android:textSize="25dp"
+            android:layout_gravity="right" />
     </LinearLayout>
 
 </LinearLayout>
