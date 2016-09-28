@@ -10,6 +10,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +41,9 @@ public class BoardActivity extends AppCompatActivity {
     TextView tvSentence;
     EditText txtSentence;
     Gson gson;
-
+    FrameLayout mainLayout;
+    FrameLayout finishGameLayout;
+    ImageView finishImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,9 @@ public class BoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         final Button btnShoot = (Button) findViewById(R.id.btnShoot);
+        mainLayout=(FrameLayout) findViewById(R.id.MainLayout);
+        finishGameLayout=(FrameLayout) findViewById(R.id.finishGameLayout);
+
         assert btnShoot != null;
         gson = new GsonBuilder().create();
         btnShoot.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +64,7 @@ public class BoardActivity extends AppCompatActivity {
         });
         tvSentence = (TextView) findViewById(R.id.tvSentences);
         txtSentence = (EditText) findViewById(R.id.txtSentence);
+        finishImageView=(ImageView) findViewById(R.id.imageViewGameOver);
         txtSentence.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -93,11 +102,7 @@ public class BoardActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             updateStatus();
-                            if (finishGame) {
-                                doAsynchronousTask.cancel();
-                                timer.cancel();
-                                finishGame();
-                            }
+
                         } catch (Exception e) {
                             showMessage(e.getMessage());
                         }
@@ -168,11 +173,7 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    protected void finishGame() {
-
-    }
-
-    protected void updateStatus() {
+     protected void updateStatus() {
 
         AsyncHttpClient clientCheckIsStarted = new AsyncHttpClient();
         clientCheckIsStarted.get(MainActivity.serverAddress + "GetUserStatus?name=" + MainActivity.userName + "&&boardId=" + MainActivity.gameBoard.ID, new TextHttpResponseHandler() {
@@ -189,11 +190,24 @@ public class BoardActivity extends AppCompatActivity {
                     tvError.setText("Errors:" + user.Errors + "");
                     tvHealth.setText("Health:" + user.Health + "");
                     tvWPN.setText("Weapons:" + user.WPN + "");
+                    if(user.Health<1)
+                    {
+                        gameOver();
+                    }
                 }
             }
         });
     }
+    protected void win() {
+        finishGameLayout.setVisibility(View.VISIBLE);
+        mainLayout.setVisibility(View.INVISIBLE);
 
+    }
+    protected void gameOver()
+    {
+        finishGameLayout.setVisibility(View.VISIBLE);
+        mainLayout.setVisibility(View.INVISIBLE);
+    }
     protected void showMessage(final String message) {
         ((Activity) BoardActivity.this).runOnUiThread(new Runnable() {
             @Override
