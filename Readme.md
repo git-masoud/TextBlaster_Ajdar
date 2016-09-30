@@ -39,9 +39,6 @@ Refrences
 
 In this paper we describe our implementation of a Multi-player game based on [CITATION Ver14 \l 1033], which is created based around users typing sentences on a touchscreen mobile device. Our game depends on players typing sentences both quickly and accurately. A player&#39;s shot is in?uenced by how fast a given sentence is entered. The exact path of a player&#39;s shot is in?uenced by how accurately a sentence is typed. Players attempt to be the last player standing by using the speed, precision, and timing of their typing to destroy competing players.  Not only is this  game fun, but it can also serve as a research platform for investigating  performance and design questions related to touchscreen keyboard text entry. This is similar to past work that has attempted to advance text entry research by developing a game.
 
-
-
-
 ![Kiku](Images/i1.jpg?raw=true)
  [CITATION Ver14 \l 1031]
 
@@ -52,11 +49,11 @@ This picture shows a group playing that each player uses an Android mobile devic
 The game is played by two or more players. Each player&#39;s name is located at the vertex of a polygon. One of users should make a board and then the other users could see board&#39;s name and join to the board. After all users join to the board, Admin (the user who made the board) could start the game.
 
 
- ![image not shown](2.jpg?raw=true "Title")
+![Kiku](Images/2.jpg?raw=true)
 
 This image shows a screenshot of a player&#39;s device during the game. Text at the top is the next sentence to be entered. At the top of screen, the player&#39;s name, health, weapons, errors are shown as well.
 
-![image not shown](3.jpg?raw=true "Title")
+![Kiku](Images/3.jpg?raw=true)
 
  
 
@@ -68,7 +65,7 @@ The last two players are situated on a line and the last player remaining is dec
 
 There are some ways in multiplayer games to make the communication between them but the most common way is to make an online server and then the other user communicate with it. We are using of this method as you can see in this figure:
 
-![image not shown](4.jpg?raw=true "Title")
+![image not shown](Images/4.jpg?raw=true)
 
 Here we have a web client to show the game in a big screen and maybe show it on a big wall with a video projector. All data save in a database which is in the server and by using the API on that server web client and mobile apps can sync their data and communicate with each other.
 
@@ -78,7 +75,7 @@ App and web client check the API every second to show the game and send a reques
 
 We have the whole procedure here to explain how it is happening in detail:
 
-- **--**** Select a user name by one of the users**
+```- **--**** Select a user name by one of the users**
 - **--**** Load available boards**
   - _App send a request to API to get available boards : boards which are ready waiting for the other users to join_
   - _API get boards name from database and return a list of them_
@@ -103,13 +100,13 @@ We have the whole procedure here to explain how it is happening in detail:
 - **--**** Apps update user status and send shoot request during the game**
 - **--**** Apps finish the game when the health of user goes less or equal to zero**
   - _App send a request to API to remove the users_
-- **--**** Game finishes when just one user remain**
+- **--**** Game finishes when just one user remain** ```
 
 ## Database
 
 Because we used &quot;DotNet&quot; technology we preferred to use MSSQL Server 2014. The database contains four tables as you can see in the diagram:
 
- ![image not shown](5.jpg?raw=true "Title")
+![image not shown](Images/5.jpg?raw=true)
 
 **Sentences** : _All the sentences which we want to ask the users to enter should be saved here._
 
@@ -125,7 +122,7 @@ We used Asp.net MVC to build this API. Input should be send by GET method and ou
 
 **Important functions:**
 
-**GetBoards():**_Return a list of boards which are waiting to start._
+``` **GetBoards():**_Return a list of boards which are waiting to start._
 
 **MakeBoard(name,adminName):**_Name is the board name and adminName is the user name of_ board creator.
 
@@ -145,7 +142,7 @@ We used Asp.net MVC to build this API. Input should be send by GET method and ou
 
 **UpdateUsersStatus(jsonUsers,boardId):**_In jsonUsers we have a JSON format of all users with their new status then we update all user status in database with this new status._
 
-**GetUserStatus(name,boardId):**_Return an object of this user._
+**GetUserStatus(name,boardId):**_Return an object of this user. ```
 
 ## Web Page
 
@@ -163,7 +160,7 @@ There are two pages for this part based on HTML and JQuery. First page is showin
 
 **updateUserStatus:** _Get user status every second from server._
 
- ![image not shown](6.jpg?raw=true "Title")
+![image not shown](Images/6.jpg?raw=true)
 
 ## Mobile APP
 
@@ -185,8 +182,8 @@ There are three activities:
 
 **refreshList:** _ This function is called every second to update the list of boards._
 
-![image not shown](7.jpg?raw=true "Title")
-![image not shown](8.jpg?raw=true "Title")
+![image not shown](Images/7.jpg?raw=true)
+![image not shown](Images/8.jpg?raw=true)
 
  
  
@@ -206,10 +203,10 @@ There are three activities:
 **updateStatus:** _App send a request to API to get the status of current user every second and call win or gameOver function if the health of user goes less than 1 or the status changed to 1._
 
  
-![image not shown](9.jpg?raw=true "Title")
+![image not shown](Images/9.jpg?raw=true)
 
-![image not shown](10.jpg?raw=true "Title")
-![image not shown](11.jpg?raw=true "Title")
+![image not shown](Images/10.jpg?raw=true)
+![image not shown](Images/11.jpg?raw=true)
 
 # Issues we faced during the project
 
