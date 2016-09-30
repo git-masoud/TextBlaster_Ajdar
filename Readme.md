@@ -1,7 +1,7 @@
 # Text Blaster implementation
 ### (A Multi-Player Touchscreen Typing Game)
 <br/>
-This project is an implementation of Text Blaster: A Multi-player Touchscreen Typing Game that you can find it [here](http://dl.acm.org/citation.cfm?id=2574802&preflayout=tabs)
+This project is an implementation of Text Blaster: A Multi-player Touchscreen Typing Game that you can find the original paper [here](http://dl.acm.org/citation.cfm?id=2574802&preflayout=tabs)
 <br/>
 
 
@@ -19,7 +19,7 @@ We already published it on http://www.ajdar.exsait.net since this address is ava
 You can use the apk file which you can find it in the root of this directory.
 <br/>
 <br/>
-## [See more information in Documentation] (https://github.com/matparsa/TextBlaster_Ajdar/wiki/An-implementation-of-%22Text-Blaster-project%22-,-(A-Multi-Player-Touchscreen-Typing-Game))
+## [See more information in Wiki] (https://github.com/matparsa/TextBlaster_Ajdar/wiki/An-implementation-of-%22Text-Blaster-project%22-,-(A-Multi-Player-Touchscreen-Typing-Game))
 <br/>
 ## Project members
 - Maosud Allahyari 116246
