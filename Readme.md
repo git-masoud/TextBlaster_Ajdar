@@ -1,7 +1,10 @@
 # An implementation of "Text Blaster project"
 ### (A Multi-Player Touchscreen Typing Game)
+<br/>
 
 ## [Read the original paper](https://risweb.st-andrews.ac.uk/portal/en/researchoutput/text-blaster-a-multiplayer-touchscreen-typing-game(4ea988e1-091f-450e-a085-70268c08df73).html)
+<br/>
+
 
 ## Installation
 ### Publish website
@@ -9,29 +12,30 @@ You need to publish the website folder into a windows webserver or in your windo
 We already published it on http://www.ajdar.exsait.net since this address is available you can use it.
 ### Mobile App
 You can use the apk file which you can find it in the root of this directory.
-
+<br/>
+<br/>
 ## Content
 [Introduction](#intro)
 
-Game Mechanics  
+[Game Mechanics](#GameMechanics)
 
-Project in detail
+[Project in detail](#ProjectDet)
 
-How different parts communicate
+[How different parts communicate](#differentParts)
 
-Database
+[Database](#Database)
 
-Web API
+[Web API](#WebApi)
 
-Web Page
+[Web Page](#WebPages)
 
-Mobile APP
+[Mobile APP](#MobileAPP)
 
-Issues we faced during the project
+[Issues we faced during the project](#Issues)
 
-Differences between our implementation and the original paper
+[Differences between our implementation and the original paper](#Differences)
 
-Refrences
+[Refrences](#Refrences)
 
 
 
@@ -44,7 +48,7 @@ In this paper we describe our implementation of a Multi-player game based on [CI
 
 This picture shows a group playing that each player uses an Android mobile device to control their ship. The global state of the game is shown on the large projection wall. This game encourages users to enter text both quickly and accurately.
 
-## Gamemechanics
+## <a name="GameMechanics"></a>Game mechanics
 
 The game is played by two or more players. Each player&#39;s name is located at the vertex of a polygon. One of users should make a board and then the other users could see board&#39;s name and join to the board. After all users join to the board, Admin (the user who made the board) could start the game.
 
@@ -61,7 +65,7 @@ The last two players are situated on a line and the last player remaining is dec
 
 
 
-## Project in detail
+## <a name="ProjectDet"></a>Project in detail
 
 There are some ways in multiplayer games to make the communication between them but the most common way is to make an online server and then the other user communicate with it. We are using of this method as you can see in this figure:
 
@@ -69,7 +73,7 @@ There are some ways in multiplayer games to make the communication between them 
 
 Here we have a web client to show the game in a big screen and maybe show it on a big wall with a video projector. All data save in a database which is in the server and by using the API on that server web client and mobile apps can sync their data and communicate with each other.
 
-## How different parts communicate
+## <a name="differentParts"></a>How different parts communicate
 
 App and web client check the API every second to show the game and send a request to it to make an action like shoot or get new sentence.
 
@@ -102,7 +106,7 @@ We have the whole procedure here to explain how it is happening in detail:
   - App send a request to API to remove the users
 - Game finishes when just one user remain
 
-## Database
+## <a name="Database"></a>Database
 
 Because we used &quot;DotNet&quot; technology we preferred to use MSSQL Server 2014. The database contains four tables as you can see in the diagram:
 
@@ -116,7 +120,7 @@ Shoots : New orders to shoot are here. Username is for shooter, TargetUserName i
 
 AjdarUsers : User information is here. They have Health, Weapon, Error and status to show user alive or not.
 
-## Web API
+## <a name="WebAPI"></a>Web API
 
 We used Asp.net MVC to build this API. Input should be send by GET method and output are JSON. All the processes are happening here which we are describe them below.
 
@@ -144,7 +148,7 @@ Important functions:
 
 - GetUserStatus(name,boardId):Return an object of this user. ```
 
-## Web Page
+## <a name="WebPage"></a>Web Page
 
 There are two pages for this part based on HTML and JQuery. First page is showing board names which are just created and has not started yet. After selecting the board, we have another simple HTML page which is showing the game using HTML5 canvas objects and communicating with server using JQuery.
 
@@ -162,7 +166,7 @@ There are two pages for this part based on HTML and JQuery. First page is showin
 
 ![image not shown](Images/6.jpg?raw=true)
 
-## Mobile APP
+## <a name="MobileAPP"></a>Mobile APP
 
 There are two activities:
 
@@ -210,7 +214,7 @@ There are two activities:
 
 ![image not shown](Images/11.jpg?raw=true)
 
-## Issues we faced during the project
+## <a name="Issues"></a>Issues we faced during the project
 
 Firstly we had some difficulty in drawing and animating objects in Html5.We had some problem for calculating the vertices of polygon which we have to  show the user ships. For example if we have 5 users then we should draw a 5 vertices polygon, it sounds simple but because we used iio.net for drawing canvas we had to follow its rules and for drawing such a polygon we had to give it all of the vertices positions. What we did is find a center point position and then by following formula we calculated each position:
 
@@ -229,10 +233,10 @@ y = Math.round(Math.sin(angle \* Math.PI / 180) \* radius + y);
 
 The second issue which we faced was sentence similarity. There are some ways to calculate it but we tried a lot of them and each one has a problem for us then we decide to use a library and we found SimMetric [https://github.com/Simmetrics/simmetrics] Java library which is calculating similarity and distance metrics between two strings.
 
-## Differences between our implementation and the original paper
+## <a name="Differences"></a>Differences between our implementation and the original paper
 
 In the original paper ,the method of selecting target user in shoot is different with our method. We select target user randomly but in the paper it is not clear how they select it but they mentioned that the angel of ship will change by considering the similarity of user sentence.
 
-# Refrences
+# <a name="Refrences"></a>Refrences
 
 Text Blaster: A Multi-player Touchscreen Typing Game. Vertanen, Keith and Emge, Justin and Memmi, Haythem and Kristensson, Per Ola. 2014. New York, NY, USA : ACM, 2014. pp. 379--382.
