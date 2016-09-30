@@ -1,55 +1,48 @@
-|
-# Text Blaster:
+# An implementation of "Text Blaster project"
+### (A Multi-Player Touchscreen Typing Game)
 
-# A Multi-Player
+## [Read the original paper](https://risweb.st-andrews.ac.uk/portal/en/researchoutput/text-blaster-a-multiplayer-touchscreen-typing-game(4ea988e1-091f-450e-a085-70268c08df73).html)
 
-# Touchscreen Typing Game
- |
-| --- |
-|
-#
+## Installation
+### Publish website
+You need to publish the website folder into a windows webserver or in your windows you can use IIS,[more information](https://docs.asp.net/en/latest/publishing/iis.html).
+We already published it on http://www.ajdar.exsait.net since this address is available you can use it.
+### Mobile App
+You can use the apk file which you can find it in the root of this directory.
 
-#
- |
-|   |
+## Content
+[Introduction](#intro)
 
-| Fahimeh Mohammadi , Masoud Allahyari    |
-| --- |
+Game Mechanics  
 
-# Contents
+Project in detail
 
-Introduction        2
+How different parts communicate
 
-Gamemechanics        3
+Database
 
-Project in detail        4
+Web API
 
-How different parts communicate        5
+Web Page
 
-Database        6
+Mobile APP
 
-Web API        7
+Issues we faced during the project
 
-Web Page        8
+Differences between our implementation and the original paper
 
-Mobile APP        9
-
-Issues we faced during the project        11
-
-Differences between our implementation and the original paper        11
-
-Refrences        12
+Refrences
 
 
 
-# Introduction
+# <a name="intro"></a>Introduction
 
 In this paper we describe our implementation of a Multi-player game based on [CITATION Ver14 \l 1033], which is created based around users typing sentences on a touchscreen mobile device. Our game depends on players typing sentences both quickly and accurately. A player&#39;s shot is in?uenced by how fast a given sentence is entered. The exact path of a player&#39;s shot is in?uenced by how accurately a sentence is typed. Players attempt to be the last player standing by using the speed, precision, and timing of their typing to destroy competing players.  Not only is this  game fun, but it can also serve as a research platform for investigating  performance and design questions related to touchscreen keyboard text entry. This is similar to past work that has attempted to advance text entry research by developing a game.
 
 
 
- 
-![image not shown](i1.jpg?raw=true "Title")
+
+![Kiku](images/i1.jpg)
  [CITATION Ver14 \l 1031]
 
 This picture shows a group playing that each player uses an Android mobile device to control their ship. The global state of the game is shown on the large projection wall. This game encourages users to enter text both quickly and accurately.
