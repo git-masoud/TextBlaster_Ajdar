@@ -51,6 +51,7 @@ In this paper we describe our implementation of a Multi-player game based on [CI
  
 
  [CITATION Ver14 \l 1031]
+ ![alt tag](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
 
 This picture shows a group playing that each player uses an Android mobile device to control their ship. The global state of the game is shown on the large projection wall. This game encourages users to enter text both quickly and accurately.
 
