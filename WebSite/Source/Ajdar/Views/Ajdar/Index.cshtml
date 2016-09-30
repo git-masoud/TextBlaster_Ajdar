@@ -1,0 +1,324 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@section scripts{
+    <script type="text/javascript">
+        users = [];
+        drawBoard = function (app) {
+            BaseAngel = 360 / users.length;
+            angel = 0; polyPoints = [];
+            for (i = 0; i < users.length; i++) {
+                users[i].point = findNewPoint(0, 0, angel, 200);
+                angel += BaseAngel;
+                if (users[i].point.x == 0)
+                    users[i].point.x = 10;
+                if (users[i].point.y == 0)
+                    users[i].point.y = 10;
+
+                polyPoints.push(users[i].point);
+            }
+
+            app.set({ color: 'black' })
+            app.add(new iio.Polygon({
+                // set position to app center
+                pos: app.center.clone(),
+                // set color to green
+                growing: true,
+                outline: 'blue',
+                lineWidth: 1,
+                // set vertices relative to pos
+                vs: polyPoints
+            }));
+            // add a new triangle to the app
+
+            for (i = 0; i < users.length; i++) {
+
+                pX = users[i].point.x;
+                pY = users[i].point.y;
+                users[i].shape = app.add(new iio.Polygon({
+                    // set position to app center
+                    pos: app.center.clone(),
+                    origin: [pX, pY],
+                    // set color to green
+                    color: 'green',
+                    rVel: .1,
+                    vs: [[pX + 7, pY + 10], [pX, pY - 15], [pX - 7, pY + 10], [pX, pY + 5]],
+
+                }));
+                tx = app.center.x + pX;
+                ty = app.center.y + pY;
+                if (app.center.x > tx)
+                    tx = tx - 50;
+                else
+                    tx = tx + 50;
+                if (app.center.y < ty)
+                    ty = ty + 50;
+                else
+                    ty = ty - 50;
+                //text
+                users[i].info = app.add(new iio.Text({
+                    pos: [tx, ty],
+                    origin: [app.center.x - pX, app.center.y - pY],
+                }));;
+                users[i].info.Name = users[i].info.add(new iio.Text({
+                    pos: [0, 0],
+                    color: 'green',
+                    size: 20,
+                    text: users[i].Name,
+
+                }));
+                users[i].info.Health = users[i].info.add(new iio.Text({
+                    pos: [0, 32],
+                    color: 'green',
+                    size: 12,
+                    text: 'Health:' + (users[i].Health|'0')
+                }));
+                users[i].info.WPN = users[i].info.add(new iio.Text({
+                    pos: [0, 20],
+                    color: 'green',
+                    size: 12,
+                    text: 'WPN:' + (users[i].WPN|'0')
+                }));
+                users[i].info.Errors = users[i].info.add(new iio.Text({
+                    pos: [0, 45],
+                    color: 'red',
+                    size: 12,
+                    text: 'Error:' + (users[i].Errors|'0')
+                }));
+            }
+        }
+
+        function findNewPoint(x, y, angle, distance) {
+            var result = {};
+            result.x = Math.round(Math.cos(angle * Math.PI / 180) * distance + x);
+            result.y = Math.round(Math.sin(angle * Math.PI / 180) * distance + y);
+            return result;
+        }
+
+        function startGame(_users) {
+            users = _users;
+            refreshBoard();
+
+        }
+
+        function removeUser(userName) {
+            users = users.filter(function (el) {
+                return el.Name !== userName;
+            });
+            refreshBoard();
+        }
+
+        function refreshBoard() {
+            iio.stop();
+            iio.start(drawBoard);
+        }
+
+        function fire(userName, targetUserName,cer) {
+            user = users.filter(function (el) {
+                return el.Name == userName;
+            })[0];
+            user.WPN=user.WPN-1;
+            targetUser = users.filter(function (el) {
+                return el.Name == targetUserName;
+            })[0];
+            if (user == undefined || targetUser == undefined)
+                return;
+            Shoot = function (app, settings) {
+
+                // define a speed variable
+                // debugger;
+                sx = app.center.x + user.point.x;
+                sy = app.center.y + user.point.y;
+                tx = (app.center.x + targetUser.point.x);
+                ty = (app.center.y + targetUser.point.y);
+                var XSpeed = (tx - sx) / 50;
+                var YSpeed = (ty - sy) / 50;
+
+                function reverse(o) {
+                    if (!bullet.collision)
+                        app.rmv(bullet);
+                }
+                // add a new circle to the app
+                bullet = app.add(new iio.Ellipse({
+                    // set position to app center
+                    pos: [sx, sy],
+                    // set color to blue
+                    color: 'yellow',
+                    outline: 'red',
+                    lineWidth: 1,
+                    // set radius to 25px
+                    radius: 5,
+                    // set x velocity
+                    vel: [XSpeed+cer, YSpeed+cer],
+                    bounds: {
+                        // define pos.x upper limit and callback
+                        right: {
+                            bound: app.width,
+                            callback: reverse
+                        },
+                        // define pos.x lower limit and callback
+                        left: {
+                            bound: 0,
+                            callback: reverse
+                        }
+                    }
+                }));
+                bullet.collision = false;
+                app.collision(bullet, targetUser.shape,
+                    function (bulletObj, targetUserObj) {
+                        bullet.collision = true;
+                        reduceHealth(targetUser);
+                        if (targetUser.Health < 1) {
+                            targetUserObj.set({
+                                bounds: {
+                                    // define rotation upper limit and callback
+                                    rightRotation: {
+                                        bound: Math.PI / 2,
+                                        callback: function (o) {
+                                            if ((o.pos.y) < 100) {
+                                                removeUser(targetUser.Name);
+                                            }
+                                        }
+                                    },
+                                    rightRotation: {
+                                        bound: Math.PI / 2,
+                                        callback: function (o) {
+                                            o.set({ pos: [o.pos.x + 10, o.pos.y - 7] });
+
+                                            if ((o.pos.y) < 100) {
+                                                removeUser(targetUser.Name);
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            for (i = 0; i <= 3; i++) {
+                                rndNoX = Math.random();
+                                rndNoX = rndNoX > 0.5 ? rndNoX * 7 : rndNoX * 7 * -1;
+                                rndNoY = Math.random();
+                                rndNoY = rndNoY > 0.5 ? rndNoY * 7 : rndNoY * 7 * -1;
+                                app.add(new iio.Ellipse({
+                                    // set position to app center
+                                    pos: [tx + rndNoX, ty + rndNoY],
+                                    // set color to green
+                                    color: 'red',
+                                    // set radius to 25px
+                                    radius: 2,
+                                    // set shrink animation
+                                    shrink: {
+                                        // shrink speed px/update
+                                        speed: .1,
+                                        // highest radius value
+                                        upperBound: 3,
+                                        // lowest radius value
+                                        lowerBound: 0,
+                                        // callback when radius is past limit
+                                        callback: function (o) {
+                                            if (o.radius < o.shrink.lowerBound)
+                                                // reverse the shrink speed (grow)
+                                                o.shrink.speed = -.1;
+                                                // reset the shrink speed (shrink)
+                                            else {
+                                                app.rmv(o);
+                                            }
+                                        }
+                                    }
+                                }));
+                            }
+                        }
+                    });
+
+            }
+            user.shoot = iio.start(Shoot);
+        }
+
+        function reduceHealth(userObj) {
+            if (userObj.Health > 0) {
+                userObj.Health-=10;
+                userObj.info.Health.set({ text: 'Health:' + userObj.Health });
+            }
+        }
+
+        boardId = @ViewBag.Id;
+
+        $(document).ready(function () {
+            $.ajax({
+                url: serverURL+"/StartGame",
+                type: "Get",
+                data: { boardId: boardId},
+                success: function (data) {
+                    if (data)
+                        runGame();
+                    //else
+                    //    window.location = 'http://ajdar.exsait.net/';
+                }
+            });
+        });
+        function runGame() {
+            $.ajax({
+                url: serverURL+"/GetUsers",
+                type: "Get",
+                data: { ID: boardId },
+                success: function (data) {
+                    startGame(data);
+                    getNewShoots();
+                    updateUserStatus();
+                }
+            });
+
+        }
+        function getNewShoots()
+        {
+            $.ajax({
+                url: serverURL+"/GetNewShoots",
+                type: "Get",
+                data: { boardID: boardId },
+                success: function (data) {
+                    newShoots = data;
+                    for (shoot = 0; shoot < newShoots.length;shoot++)
+                    {
+
+                        fire(newShoots[shoot].UserName, newShoots[shoot].TargetUserName, newShoots[shoot].CER);
+                        $.ajax({
+                            url: serverURL+"/Shooted",
+                            type: "Get",
+                            data: {ID:newShoots[shoot].Id }
+
+                        });
+
+                    }
+                    var timeoutID = window.setTimeout("getNewShoots()", 1000);
+                }
+            });
+            //
+
+        }
+
+        function updateUserStatus()
+        {
+            var solidUsers = [];
+            for (i = 0; i < users.length; i++)
+                solidUsers.push({ Name: users[i].Name, Errors: users[i].Errors, Health: users[i].Health, WPN: users[i].WPN, Status: users[i].Status });
+            $.ajax({
+                url: serverURL+"/UpdateUsersStatus",
+                type: "Get",
+                data: { jsonUsers: JSON.stringify(solidUsers), boardID: boardId },
+                success:function()
+                { var timeoutID = window.setTimeout("updateUserStatus()", 3000); }
+            });
+
+        }
+
+        //serverURL="http://localhost:7036/api/AjdarApi";
+        serverURL="http://ajdar.exsait.net/api/AjdarApi";
+    </script>
+}
+
+<div id="boardDiv" style="width:100%;height:500px;">
+    <canvas id="boardCanvas" width="800" height="500" style="border:1px solid #000000;"></canvas>
+
+
+</div>

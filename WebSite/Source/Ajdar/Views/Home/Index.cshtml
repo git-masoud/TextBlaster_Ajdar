@@ -1,0 +1,16 @@
+﻿@model List<Ajdar.Models.GameBoard>
+@{
+    ViewBag.Title = "Home Page";
+}
+@section scripts{
+    <script type="text/javascript">
+    </script>
+}
+<span style="font-weight:bold;color:black;">Available boards:</span>
+<hr style="border-top: 1px solid black;" />
+<ul>
+    @foreach (var gameBoard in Model)
+    {
+        <li>@Html.ActionLink(gameBoard.Name, "Index/" + gameBoard.ID, "Ajdar")</li>
+    }
+</ul>
