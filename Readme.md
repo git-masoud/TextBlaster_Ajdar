@@ -44,6 +44,7 @@ You can use the apk file which you can find it in the root of this directory.
 In this paper we describe our implementation of a Multi-player game based on [Text Blaster: A Multi-player Touchscreen Typing Game (Vertanen, Keith and Emge, Justin and Memmi, Haythem and Kristensson, Per Ola)], which is created based around users typing sentences on a touchscreen mobile device. Our game depends on players typing sentences both quickly and accurately. A player&#39;s shot is in?uenced by how fast a given sentence is entered. The exact path of a player&#39;s shot is in?uenced by how accurately a sentence is typed. Players attempt to be the last player standing by using the speed, precision, and timing of their typing to destroy competing players.  Not only is this  game fun, but it can also serve as a research platform for investigating  performance and design questions related to touchscreen keyboard text entry. This is similar to past work that has attempted to advance text entry research by developing a game.
 
 ![Kiku](Images/i1.jpg?raw=true)
+
 figure 1,Text Blaster: A Multi-player Touchscreen Typing Game (Vertanen, Keith and Emge, Justin and Memmi, Haythem and Kristensson, Per Ola)
 
 This picture shows a group playing that each player uses an Android mobile device to control their ship. The global state of the game is shown on the large projection wall. This game encourages users to enter text both quickly and accurately.
