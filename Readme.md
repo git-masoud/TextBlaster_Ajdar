@@ -49,7 +49,7 @@ In this paper we describe our implementation of a Multi-player game based on [CI
 
 
  
-![Alt text](relative/2.jpg?raw=true "Title")
+![image not shown](i1.jpg?raw=true "Title")
  [CITATION Ver14 \l 1031]
 
 This picture shows a group playing that each player uses an Android mobile device to control their ship. The global state of the game is shown on the large projection wall. This game encourages users to enter text both quickly and accurately.
@@ -58,9 +58,12 @@ This picture shows a group playing that each player uses an Android mobile devic
 
 The game is played by two or more players. Each player&#39;s name is located at the vertex of a polygon. One of users should make a board and then the other users could see board&#39;s name and join to the board. After all users join to the board, Admin (the user who made the board) could start the game.
 
- 
+
+ ![image not shown](2.jpg?raw=true "Title")
 
 This image shows a screenshot of a player&#39;s device during the game. Text at the top is the next sentence to be entered. At the top of screen, the player&#39;s name, health, weapons, errors are shown as well.
+
+![image not shown](3.jpg?raw=true "Title")
 
  
 
@@ -71,6 +74,8 @@ The last two players are situated on a line and the last player remaining is dec
 # Project in detail
 
 There are some ways in multiplayer games to make the communication between them but the most common way is to make an online server and then the other user communicate with it. We are using of this method as you can see in this figure:
+
+![image not shown](4.jpg?raw=true "Title")
 
 Here we have a web client to show the game in a big screen and maybe show it on a big wall with a video projector. All data save in a database which is in the server and by using the API on that server web client and mobile apps can sync their data and communicate with each other.
 
@@ -111,7 +116,7 @@ We have the whole procedure here to explain how it is happening in detail:
 
 Because we used &quot;DotNet&quot; technology we preferred to use MSSQL Server 2014. The database contains four tables as you can see in the diagram:
 
- 
+ ![image not shown](5.jpg?raw=true "Title")
 
 **Sentences** : _All the sentences which we want to ask the users to enter should be saved here._
 
@@ -165,7 +170,7 @@ There are two pages for this part based on HTML and JQuery. First page is showin
 
 **updateUserStatus:** _Get user status every second from server._
 
- 
+ ![image not shown](6.jpg?raw=true "Title")
 
 ## Mobile APP
 
@@ -187,6 +192,9 @@ There are three activities:
 
 **refreshList:** _ This function is called every second to update the list of boards._
 
+![image not shown](7.jpg?raw=true "Title")
+![image not shown](8.jpg?raw=true "Title")
+
  
  
 
@@ -205,6 +213,10 @@ There are three activities:
 **updateStatus:** _App send a request to API to get the status of current user every second and call win or gameOver function if the health of user goes less than 1 or the status changed to 1._
 
  
+![image not shown](9.jpg?raw=true "Title")
+
+![image not shown](10.jpg?raw=true "Title")
+![image not shown](11.jpg?raw=true "Title")
 
 # Issues we faced during the project
 
