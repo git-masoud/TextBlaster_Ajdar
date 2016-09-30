@@ -2,14 +2,20 @@
 ### (A Multi-Player Touchscreen Typing Game)
 <br/>
 
-## [Read the original paper](https://risweb.st-andrews.ac.uk/portal/en/researchoutput/text-blaster-a-multiplayer-touchscreen-typing-game(4ea988e1-091f-450e-a085-70268c08df73).html)
+## [Read the original paper](http://dl.acm.org/citation.cfm?id=2574802&preflayout=tabs)
 <br/>
 
 
 ## Installation
 ### Publish website
-You need to publish the website folder into a windows webserver or in your windows you can use IIS,[more information](https://docs.asp.net/en/latest/publishing/iis.html).
+You need to publish the website folder into a windows webserver or in your windows you can use IIS,[more information](https://docs.asp.net/en/latest/publishing/iis.html). For database you just need to make a blank database in MSSQL and then change connectionString part in in web.config
+```
+<connectionStrings>
+	<add name="ConnStringDb1" connectionString="Data Source=localhost;Initial Catalog=YourDataBaseName;Integrated Security=True;" providerName="System.Data.SqlClient" />
+</connectionStrings>
+  ```
 We already published it on http://www.ajdar.exsait.net since this address is available you can use it.
+<br/>
 ### Mobile App
 You can use the apk file which you can find it in the root of this directory.
 <br/>
