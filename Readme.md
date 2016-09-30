@@ -186,9 +186,7 @@ There are two activities:
 
 		- refreshList:  This function is called every second to update the list of boards.
 
-![image not shown](Images/7.jpg?raw=true)
-
-![image not shown](Images/8.jpg?raw=true)
+<center>![image not shown](Images/7.jpg?raw=true)&nbsp;&nbsp;&nbsp;![image not shown](Images/8.jpg?raw=true)</center>
 
  
  
@@ -207,12 +205,10 @@ There are two activities:
 
 		- updateStatus: App send a request to API to get the status of current user every second and call win or gameOver function if the health of user goes less than 1 or the status changed to 1.
 
- 
+<center> 
 ![image not shown](Images/9.jpg?raw=true)
 
-![image not shown](Images/10.jpg?raw=true)
-
-![image not shown](Images/11.jpg?raw=true)
+![image not shown](Images/10.jpg?raw=true)&nbsp;&nbsp;![image not shown](Images/11.jpg?raw=true)</center>
 
 ## <a name="Issues"></a>Issues we faced during the project
 
