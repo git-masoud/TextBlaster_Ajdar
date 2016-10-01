@@ -19,7 +19,7 @@ We already published it on http://www.ajdar.exsait.net since this address is ava
 You can use the apk file which you can find it in the root of this directory.
 <br/>
 <br/>
-## [See more information in Wiki] (https://github.com/matparsa/TextBlaster_Ajdar/wiki/An-implementation-of-%22Text-Blaster-project%22-,-(A-Multi-Player-Touchscreen-Typing-Game))
+## [See more information in Wiki] (https://github.com/matparsa/TextBlaster_Ajdar/wiki/%22Text-Blaster-project%22--implementation)
 <br/>
 ## Project members
 - Maosud Allahyari 116246
